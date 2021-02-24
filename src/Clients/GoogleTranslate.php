@@ -3,21 +3,21 @@
 namespace Stevebauman\Translation\Clients;
 
 use Stevebauman\Translation\Contracts\Client;
-use Stichoza\GoogleTranslate\TranslateClient;
+use Stichoza\GoogleTranslate\GoogleTranslate as StichozaGoogleTranslate;
 
 class GoogleTranslate implements Client
 {
-    /** @var TranslateClient */
+    /** @var StichozaGoogleTranslate */
     protected $client;
 
     /**
-     * @param TranslateClient $client
+     * @param StichozaGoogleTranslate $client
      */
-    public function __construct(TranslateClient $client)
+    public function __construct(StichozaGoogleTranslate $client)
     {
         $this->client = $client;
     }
-
+    
     /**
      * {@inheritdoc}
      */
