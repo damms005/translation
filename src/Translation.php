@@ -62,11 +62,11 @@ class Translation implements TranslationInterface
     protected $request;
 
     /**
-     * The default amount of time (minutes) to store the cached translations.
+     * The default amount of time (seconds) to store the cached translations.
      *
      * @var int
      */
-    private $cacheTime = 30;
+    private $cacheTime = null;
 
     /**
      * {@inheritdoc}
@@ -86,6 +86,7 @@ class Translation implements TranslationInterface
 
         // Set the cache time from the configuration
         $this->setCacheTime($this->getConfigCacheTime());
+        // dd($this->cacheTime);
     }
 
     /**
@@ -388,8 +389,8 @@ class Translation implements TranslationInterface
             $id = $this->getTranslationCacheId($translation->locale, $translation->translation);
         }
 
-        if (!$this->cache->has($id)) {
-            $this->cache->put($id, $translation, $this->cacheTime);
+        if (!\Cache::has($id)) {
+            \Cache::put($id, $translation, $this->cacheTime);
         }
     }
 
@@ -402,8 +403,8 @@ class Translation implements TranslationInterface
     {
         $id = $this->getTranslationCacheId($translation->locale, $translation->translation);
 
-        if ($this->cache->has($id)) {
-            $this->cache->forget($id);
+        if (\Cache::has($id)) {
+            \Cache::forget($id);
         }
     }
 
@@ -420,7 +421,7 @@ class Translation implements TranslationInterface
     {
         $id = $this->getTranslationCacheId($locale, $text);
 
-        $cachedTranslation = $this->cache->get($id);
+        $cachedTranslation =\Cache::get($id);
 
         if ($cachedTranslation instanceof Model) {
             return $cachedTranslation;
@@ -438,10 +439,10 @@ class Translation implements TranslationInterface
      */
     protected function setCacheLocale(Model $locale)
     {
-        if (!$this->cache->has($locale->code)) {
+        if (!\Cache::has($locale->code)) {
             $id = sprintf('translation.%s', $locale->code);
 
-            $this->cache->put($id, $locale, $this->cacheTime);
+            \Cache::put($id, $locale, $this->cacheTime);
         }
     }
 
@@ -456,8 +457,8 @@ class Translation implements TranslationInterface
     {
         $id = sprintf('translation.%s', $code);
 
-        if ($this->cache->has($id)) {
-            return $this->cache->get($id);
+        if (\Cache::has($id)) {
+            return \Cache::get($id);
         }
 
         return false;
@@ -472,8 +473,8 @@ class Translation implements TranslationInterface
     {
         $id = sprintf('translation.%s', $code);
 
-        if ($this->cache->has($id)) {
-            $this->cache->forget($id);
+        if (\Cache::has($id)) {
+            \Cache::forget($id);
         }
     }
 

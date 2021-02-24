@@ -116,8 +116,8 @@ return [
     | Cache Time
     |--------------------------------------------------------------------------
     |
-    | The amount of minutes to store the translations / locales in cache,
-    | default is 30 minutes.
+    | The amount of seconds to store the translations / locales in cache,
+    | default is null (store indefinitely).
     |
     */
 
