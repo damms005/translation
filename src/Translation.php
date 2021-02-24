@@ -82,7 +82,7 @@ class Translation implements TranslationInterface
         $this->client = $app->make($this->getConfigClient());
 
         // Set the default locale to the current application locale
-        $this->setLocale($this->getConfigDefaultLocale());
+        // $this->setLocale($this->getConfigDefaultLocale());
 
         // Set the cache time from the configuration
         $this->setCacheTime($this->getConfigCacheTime());
@@ -186,8 +186,8 @@ class Translation implements TranslationInterface
      */
     public function getLocale()
     {
-        if ($this->request->hasCookie('locale')) {
-            return $this->request->cookie('locale');
+        if (session()->has('translation_language')) {
+            return session('translation_language');
         } else {
             return $this->getConfigDefaultLocale();
         }
@@ -199,6 +199,7 @@ class Translation implements TranslationInterface
     public function setLocale($code = '')
     {
         $this->locale = $code;
+       request()->getSession()->put('translation_language', $code);
     }
 
     /**
